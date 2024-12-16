@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .normal-header { background: #d1fae5; }
+        .warning-header { background: #fef3c7; }
+        .alarm-header { background: #fee2e2; }
+
+        .card-title {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .status-table th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: bold;
+            color: #444;
+            border-bottom: 2px solid #eee;
+        }
+
+        .status-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .threshold-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .threshold-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .threshold-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .threshold-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-top: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .range-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .normal-badge { background: #d1fae5; color: #065f46; }
+        .warning-badge { background: #fef3c7; color: #92400e; }
+        .alarm-badge { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Normal Systems Card -->
+        <div class="status-card">
+            <div class="card-header normal-header">
+                <h2 class="card-title">Normal Systems</h2>
+            </div>
+            <table class="status-table" id="normal-table">
+                <thead>
+                    <tr>
+                        <th>System Name</th>
+                        <th>Current Status</th>
+                        <th>Performance</th>
+                        <th>Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>System A1</td>
+                        <td><span class="status-badge normal-badge">Normal</span></td>
+                        <td>98% Optimal</td>
+                        <td>2 mins ago</td>
+                    </tr>
+                    <tr>
+                        <td>System A2</td>
+                        <td><span class="status-badge normal-badge">Normal</span></td>
+                        <td>95% Optimal</td>
+                        <td>5 mins ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Warning Systems Card -->
+        <div class="status-card">
+            <div class="card-header warning-header">
+                <h2 class="card-title">Warning Systems</h2>
+            </div>
+            <table class="status-table" id="warning-table">
+                <thead>
+                    <tr>
+                        <th>System Name</th>
+                        <th>Current Status</th>
+                        <th>Issue</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>System B1</td>
+                        <td><span class="status-badge warning-badge">Warning</span></td>
+                        <td>Low Battery (30%)</td>
+                        <td>15 mins</td>
+                    </tr>
+                    <tr>
+                        <td>System B2</td>
+                        <td><span class="status-badge warning-badge">Warning</span></td>
+                        <td>High Temperature (68°C)</td>
+                        <td>25 mins</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Alarm Systems Card -->
+        <div class="status-card">
+            <div class="card-header alarm-header">
+                <h2 class="card-title">Alarm Systems</h2>
+            </div>
+            <table class="status-table" id="alarm-table">
+                <thead>
+                    <tr>
+                        <th>System Name</th>
+                        <th>Current Status</th>
+                        <th>Critical Issue</th>
+                        <th>Action Required</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>System C1</td>
+                        <td><span class="status-badge alarm-badge">Alarm</span></td>
+                        <td>Inverter Failure</td>
+                        <td>Immediate Maintenance</td>
+                    </tr>
+                    <tr>
+                        <td>System C2</td>
+                        <td><span class="status-badge alarm-badge">Alarm</span></td>
+                        <td>Critical Battery (10%)</td>
+                        <td>Emergency Shutdown</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Thresholds Section -->
+        <div class="threshold-section">
+            <h2 class="card-title">System Thresholds</h2>
+            <div class="threshold-grid">
+                <div class="threshold-item">
+                    <div class="threshold-title">Temperature</div>
+                    <div class="input-group">
+                        <label>Warning Range</label>
+                        <div class="range-inputs">
+                            <input type="number" value="60" min="0" max="100" step="1" placeholder="Min">
+                            <input type="number" value="70" min="0" max="100" step="1" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Alarm Range</label>
+                        <div class="range-inputs">
+                            <input type="number" value="75" min="0" max="100" step="1" placeholder="Min">
+                            <input type="number" value="80" min="0" max="100" step="1" placeholder="Max">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="threshold-item">
+                    <div class="threshold-title">Battery Level</div>
+                    <div class="input-group">
+                        <label>Warning Range</label>
+                        <div class="range-inputs">
+                            <input type="number" value="40" min="0" max="100" step="1" placeholder="Min">
+                            <input type="number" value="100" min="0" max="100" step="1" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Alarm Range</label>
+                        <div class="range-inputs">
+                            <input type="number" value="20" min="0" max="100" step="1" placeholder="Min">
+                            <input type="number" value="100" min="0" max="100" step="1" placeholder="Max">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="threshold-item">
+                    <div class="threshold-title">Power Output</div>
+                    <div class="input-group">
+                        <label>Warning Range</label>
+                        <div class="range-inputs">
+                            <input type="number" value="70" min="0" max="100" step="1" placeholder="Min">
+                            <input type="number" value="100" min="0" max="100" step="1" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Alarm Range</label>
+                        <div class="range-inputs">
+                            <input type="number" value="50" min="0" max="100" step="1" placeholder="Min">
+                            <input type="number" value="100" min="0" max="100" step="1" placeholder="Max">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // System data
+        const systems = [
+            { 
+                name: 'System A1',
+                status: 'normal',
+                performance: '98% Optimal',
+                lastUpdated: '2 mins ago',
+                metrics: {
+                    temperature: 55,
+                    batteryLevel: 85,
+                    powerOutput: 98
+                }
+            },
+            { 
+                name: 'System A2',
+                status: 'normal',
+                performance: '95% Optimal',
+                lastUpdated: '5 mins ago',
+                metrics: {
+                    temperature: 58,
+                    batteryLevel: 90,
+                    powerOutput: 95
+                }
+            },
+            { 
+                name: 'System B1',
+                status: 'warning',
+                issue: 'Low Battery (30%)',
+                duration: '15 mins',
+                metrics: {
+                    temperature: 65,
+                    batteryLevel: 30,
+                    powerOutput: 75
+                }
+            },
+            { 
+                name: 'System B2',
+                status: 'warning',
+                issue: 'High Temperature (68°C)',
+                duration: '25 mins',
+                metrics: {
+                    temperature: 68,
+                    batteryLevel: 45,
+                    powerOutput: 72
+                }
+            },
+            { 
+                name: 'System C1',
+                status: 'alarm',
+                criticalIssue: 'Inverter Failure',
+                action: 'Immediate Maintenance',
+                metrics: {
+                    temperature: 75,
+                    batteryLevel: 15,
+                    powerOutput: 45
+                }
+            },
+            { 
+                name: 'System C2',
+                status: 'alarm',
+                criticalIssue: 'Critical Battery (10%)',
+                action: 'Emergency Shutdown',
+                metrics: {
+                    temperature: 78,
+                    batteryLevel: 10,
+                    powerOutput: 40
+                }
+            }
+        ];
+
+        // Threshold configuration
+        let thresholds = {
+            temperature: {
+                warning: { min: 60, max: 70 },
+                alarm: { min: 75, max: 80 }
+            },
+            batteryLevel: {
+                warning: { min: 40, max: 100 },
+                alarm: { min: 20, max: 100 }
+            },
+            powerOutput: {
+                warning: { min: 70, max: 100 },
+                alarm: { min: 50, max: 100 }
+            }
+        };
+
+        // Function to update system status based on thresholds
+        function updateSystemStatus(system) {
+            const metrics = system.metrics;
+            let status = 'normal';
+            let issues = [];
+
+            // Check each metric against thresholds
+            Object.entries(metrics).forEach(([metric, value]) => {
+                const thresholdConfig = thresholds[metric];
+                if (!thresholdConfig) return;
+
+                if (value <= thresholdConfig.alarm.min || value >= thresholdConfig.alarm.max) {
+                    status = 'alarm';
+                    issues.push(`${metric}: ${value}`);
+                } else if (value <= thresholdConfig.warning.min || value >= thresholdConfig.warning.max) {
+                    if (status !== 'alarm') status = 'warning';
+                    issues.push(`${metric}: ${value}`);
+                }
+            });
+
+            return { status, issues: issues.join(', ') };
+        }
+
+        // Function to update tables
+        function updateTables() {
+            const normalSystems = systems.filter(s => s.status === 'normal');
+            const warningSystems = systems.filter(s => s.status === 'warning');
+            const alarmSystems = systems.filter(s => s.status === 'alarm');
+
+            // Update Normal Systems Table
+            document.querySelector('#normal-table tbody').innerHTML = normalSystems.map(system => `
+                <tr>
+                    <td>${system.name}</td>
+                    <td><span class="status-badge normal-badge">Normal</span></td>
+                    <td>${system.performance}</td>
+                    <td>${system.lastUpdated}</td>
+                </tr>
+            `).join('');
+
+            // Update Warning Systems Table
+            document.querySelector('#warning-table tbody').innerHTML = warningSystems.map(system => `
+                <tr>
+                    <td>${system.name}</td>
+                    <td><span class="status-badge warning-badge">Warning</span></td>
+                    <td>${system.issue}</td>
+                    <td>${system.duration}</td>
+                </tr>
+            `).join('');
+
+            // Update Alarm Systems Table
+            document.querySelector('#alarm-table tbody').innerHTML = alarmSystems.map(system => `
+                <tr>
+                    <td>${system.name}</td>
+                    <td><span class="status-badge alarm-badge">Alarm</span></td>
+                    <td>${system.criticalIssue}</td>
+                    <td>${system.action}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Function to update threshold values
+        function updateThreshold(metric, type, bound, value) {
+            thresholds[metric][type][bound] = Number(value);
+            
+            // Recalculate all system statuses
+            systems.forEach(system => {
+                const newStatus = updateSystemStatus(system);
+                system.status = newStatus.status;
+                if (newStatus.status === 'warning') {
+                    system.issue = newStatus.issues;
+                    system.duration = 'Just now';
+                } else if (newStatus.status === 'alarm') {
+                    system.criticalIssue = newStatus.issues;
+                    system.action = 'Check System';
+                }
+            });
+
+            updateTables();
+        }
+
+        // Initialize threshold inputs
+        function initializeThresholds() {
+            const inputs = document.querySelectorAll('.threshold-item input');
+            inputs.forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const metric = e.target.closest('.threshold-item').querySelector('.threshold-title').textContent.toLowerCase().replace(' ', '');
+                    const type = e.target.closest('.input-group').querySelector('label').textContent.toLowerCase().includes('warning') ? 'warning' : 'alarm';
+                    const bound = Array.from(e.target.closest('.range-inputs').children).indexOf(e.target) === 0 ? 'min' : 'max';
+                    updateThreshold(metric, type, bound, e.target.value);
+                });
+            });
+        }
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTables();
+            initializeThresholds();
+
+            // Optional: Simulate real-time updates
+            setInterval(() => {
+                // Update last updated times
+                systems.forEach(system => {
+                    if (system.lastUpdated) {
+                        const minutes = parseInt(system.lastUpdated) + 1;
+                        system.lastUpdated = `${minutes} mins ago`;
+                    }
+                });
+                updateTables();
+            }, 60000); // Update every minute
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% load static %}
+{% block content %}
+  <div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg p-4 text-center">
+      <img src="{% static 'img/landing-hero.jpg' %}" class="card-img-top mb-4" alt="Landing Page Hero Image">
+      <h1 class="card-title mb-3">Welcome to the Landing Page!</h1>
+      <p class="card-text mb-4">This is where users will be directed after login, before accessing the dashboard.</p>
+    </div>
+  </div>
+{% endblock %}

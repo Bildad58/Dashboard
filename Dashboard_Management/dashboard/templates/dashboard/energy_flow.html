@@ -1,0 +1,127 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+
+const EnergyFlowCard = () => {
+  const [energyData, setEnergyData] = useState({
+    pv_power: 0,
+    pv_voltage: 0,
+    inverter_efficiency: 0,
+    inverter_temp: 0,
+    battery_charge: 0,
+    battery_status: 'Standby',
+    grid_power: 0,
+    grid_status: 'Connected',
+    load_consumption: 0,
+    load_peak: 0
+  });
+
+  return (
+    <Card className="w-full max-w-lg bg-white">
+      <CardContent className="p-4">
+        <div className="text-sm font-medium mb-2">Energy Flow Diagram</div>
+        <div className="w-full relative">
+          <svg className="w-full h-[300px]" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+            {/* PV Panel Section */}
+            <g className="pv-section" transform="translate(20,20)">
+              <foreignObject x="0" y="0" width="100" height="90">
+                <div className="text-center">
+                  <div className="text-xs mb-1">PV Panels</div>
+                  <div className="w-9 h-9 mx-auto mb-1 rounded-full border border-blue-400 bg-gray-50 flex items-center justify-center">
+                    <i className="fas fa-solar-panel text-base text-gray-700"></i>
+                  </div>
+                  <span className="block text-xs text-gray-700">{energyData.pv_power} kW</span>
+                  <span className="block text-xs text-gray-700">{energyData.pv_voltage} V</span>
+                </div>
+              </foreignObject>
+            </g>
+
+            {/* Inverter Section */}
+            <g className="inverter-section" transform="translate(170,120)">
+              <foreignObject x="0" y="0" width="80" height="90">
+                <div className="text-center">
+                  <div className="text-xs mb-1">Inverter</div>
+                  <div className="w-9 h-9 mx-auto mb-1 rounded-full border border-blue-400 bg-gray-50 flex items-center justify-center">
+                    <i className="fas fa-exchange-alt text-base text-gray-700"></i>
+                  </div>
+                  <span className="block text-xs text-gray-700">{energyData.inverter_efficiency}%</span>
+                  <span className="block text-xs text-gray-700">{energyData.inverter_temp}°C</span>
+                </div>
+              </foreignObject>
+            </g>
+
+            {/* Battery Section */}
+            <g className="battery-section" transform="translate(20,220)">
+              <foreignObject x="0" y="0" width="100" height="90">
+                <div className="text-center">
+                  <div className="text-xs mb-1">Battery</div>
+                  <div className="w-9 h-9 mx-auto mb-1 rounded-full border border-blue-400 bg-gray-50 flex items-center justify-center">
+                    <i className="fas fa-car-battery text-base text-gray-700"></i>
+                  </div>
+                  <span className="block text-xs text-gray-700">{energyData.battery_charge}%</span>
+                  <span className="block text-xs text-gray-700">{energyData.battery_status}</span>
+                </div>
+              </foreignObject>
+            </g>
+
+            {/* Grid Section */}
+            <g className="grid-section" transform="translate(300,20)">
+              <foreignObject x="0" y="0" width="100" height="90">
+                <div className="text-center">
+                  <div className="text-xs mb-1">Grid</div>
+                  <div className="w-9 h-9 mx-auto mb-1 rounded-full border border-blue-400 bg-gray-50 flex items-center justify-center">
+                    <i className="fas fa-power-off text-base text-gray-700"></i>
+                  </div>
+                  <span className="block text-xs text-gray-700">{energyData.grid_power} kW</span>
+                  <span className="block text-xs text-gray-700">{energyData.grid_status}</span>
+                </div>
+              </foreignObject>
+            </g>
+
+            {/* Load Section */}
+            <g className="load-section" transform="translate(300,220)">
+              <foreignObject x="0" y="0" width="100" height="90">
+                <div className="text-center">
+                  <div className="text-xs mb-1">Load</div>
+                  <div className="w-9 h-9 mx-auto mb-1 rounded-full border border-blue-400 bg-gray-50 flex items-center justify-center">
+                    <i className="fas fa-plug text-base text-gray-700"></i>
+                  </div>
+                  <span className="block text-xs text-gray-700">{energyData.load_consumption} kW</span>
+                  <span className="block text-xs text-gray-700">{energyData.load_peak} kW</span>
+                </div>
+              </foreignObject>
+            </g>
+
+            {/* Flow Lines */}
+            <g className="flow-lines">
+              {/* PV to Inverter */}
+              <path className="fill-none stroke-gray-200" strokeWidth="1" d="M120,60 L170,150"/>
+              <circle r="2" fill="#10B981">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M120,60 L170,150"/>
+              </circle>
+
+              {/* Grid to Inverter */}
+              <path className="fill-none stroke-gray-200" strokeWidth="1" d="M300,60 L250,150"/>
+              <circle r="2" fill="#10B981">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M300,60 L250,150"/>
+              </circle>
+
+              {/* Inverter to Battery */}
+              <path className="fill-none stroke-gray-200" strokeWidth="1" d="M170,180 L120,220"/>
+              <circle r="2" fill="#10B981">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M170,180 L120,220"/>
+              </circle>
+
+              {/* Inverter to Load */}
+              <path className="fill-none stroke-gray-200" strokeWidth="1" d="M250,180 L300,220"/>
+              <circle r="2" fill="#10B981">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M250,180 L300,220"/>
+              </circle>
+            </g>
+          </svg>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default EnergyFlowCard;
