@@ -8,61 +8,44 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .alert {
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <div class="container d-flex align-items-center justify-content-center min-vh-100">
         <div class="col-lg-4 col-md-6 col-sm-8">
             <div class="card shadow-lg p-4">
                 <h3 class="card-title text-center mb-4">Register</h3>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}info{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mb-3" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
                 <form method="POST" class="form">
                     {% csrf_token %}
                     
-                    <!-- First Name Field -->
-                    <div class="form-group mb-3">
-                        <label for="id_first_name" class="form-label">First Name</label>
-                        <input type="text" name="first_name" id="id_first_name" class="form-control" value="{{ form.first_name.value|default:'' }}">
-                        {% if form.first_name.errors %}
-                            <div class="text-danger small mt-1">
-                                {% for error in form.first_name.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Last Name Field -->
-                    <div class="form-group mb-3">
-                        <label for="id_last_name" class="form-label">Last Name</label>
-                        <input type="text" name="last_name" id="id_last_name" class="form-control" value="{{ form.last_name.value|default:'' }}">
-                        {% if form.last_name.errors %}
-                            <div class="text-danger small mt-1">
-                                {% for error in form.last_name.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
                     <!-- Email Field -->
                     <div class="form-group mb-3">
                         <label for="id_email" class="form-label">Email</label>
-                        <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default:'' }}">
+                        <input type="email" name="email" id="id_email" class="form-control" required value="{{ form.email.value|default:'' }}">
                         {% if form.email.errors %}
                             <div class="text-danger small mt-1">
                                 {% for error in form.email.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Username Field -->
-                    <div class="form-group mb-3">
-                        <label for="id_username" class="form-label">Username</label>
-                        <input type="text" name="username" id="id_username" class="form-control" value="{{ form.username.value|default:'' }}">
-                        {% if form.username.errors %}
-                            <div class="text-danger small mt-1">
-                                {% for error in form.username.errors %}
                                     <p>{{ error }}</p>
                                 {% endfor %}
                             </div>
@@ -72,7 +55,7 @@
                     <!-- Password Field -->
                     <div class="form-group mb-3">
                         <label for="id_password1" class="form-label">Password</label>
-                        <input type="password" name="password1" id="id_password1" class="form-control">
+                        <input type="password" name="password1" id="id_password1" class="form-control" required>
                         {% if form.password1.errors %}
                             <div class="text-danger small mt-1">
                                 {% for error in form.password1.errors %}
@@ -85,7 +68,7 @@
                     <!-- Password Confirmation Field -->
                     <div class="form-group mb-3">
                         <label for="id_password2" class="form-label">Confirm Password</label>
-                        <input type="password" name="password2" id="id_password2" class="form-control">
+                        <input type="password" name="password2" id="id_password2" class="form-control" required>
                         {% if form.password2.errors %}
                             <div class="text-danger small mt-1">
                                 {% for error in form.password2.errors %}

@@ -1,827 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar Energy Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar Energy Management - Home</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      :root {
+        --primary-color: #2c3e50;
+        --accent-color: #3498db;
+        --success-color: #2ecc71;
+        --light-color: #ecf0f1;
+        --warning-color: #f1c40f;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%);
+        color: white;
+      }
+
+      .navbar {
+        background-color: rgba(44, 62, 80, 0.95);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 5px 10px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link:hover {
+        color: var(--accent-color);
+      }
+
+      .nav-btn {
+        padding: 8px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn {
+        background-color: transparent;
+        border: 2px solid var(--accent-color);
+        color: white;
+      }
+
+      .register-btn {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 8rem 2rem 4rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url("/api/placeholder/1920/1080") no-repeat center center;
+        background-size: cover;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        animation: fadeInUp 1s ease;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #b8c2cc;
+        animation: fadeInUp 1s ease 0.2s;
+        opacity: 0;
+        animation-fill-mode: forwards;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        animation: fadeInUp 1s ease 0.4s;
+        opacity: 0;
+        animation-fill-mode: forwards;
+      }
+
+      .cta-btn {
+        padding: 15px 40px;
+        border-radius: 30px;
+        border: none;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .cta-btn:hover {
+        transform: translateY(-3px);
+      }
+
+      .primary-btn {
+        background-color: var(--accent-color);
+        color: white;
+      }
+
+      .secondary-btn {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        font-size: 2.5rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+      }
+
+      .stats-section {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 4rem 2rem;
+        text-align: center;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .stat-card {
+        padding: 2rem;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--accent-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .testimonials {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .testimonial-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+      }
+
+      .testimonial-text {
+        font-style: italic;
+        margin-bottom: 1rem;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--accent-color);
+      }
+
+      .contact-section {
+        padding: 4rem 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        text-align: center;
+      }
+
+      .contact-form {
+        max-width: 600px;
+        margin: 2rem auto;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 400px;
+        color: var(--primary-color);
+        position: relative;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary-color);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+      }
+
+      footer {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 4rem 2rem 1rem;
+        color: white;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 1rem;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-links a {
+        color: #b8c2cc;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-color);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        color: white;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--accent-color);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
         }
 
-        :root {
-            /* Core colors */
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --success-color: #2ecc71;
-            --warning-color: #f1c40f;
-            --danger-color: #e74c3c;
-            --light-color: #ecf0f1;
-            
-            /* Card colors - Feel free to customize */
-            --sites-card-gradient: linear-gradient(135deg, #3798c5, #7cc0b1);
-            --energy-card-gradient: linear-gradient(135deg, #d48f34, #50503d);
-            --capacity-card-gradient: linear-gradient(135deg, #18a592, #18a592);
-            --status-card-gradient: linear-gradient(135deg, #F6B93B, #E58E26);
-            
-            /* Card dimensions - Adjust these to resize cards */
-            --card-min-width: 300px;
-            --card-max-width: 300px;
-            --card-height: 350px;
-            --card-padding: 20px;
-            --card-border-radius: 8px;
-            
-            /* Grid layout customization */
-            --grid-gap: 15px;
-            --grid-columns: 4;
+        .features {
+          grid-template-columns: 1fr;
         }
 
-        body {
-            background-color: #f4f6f9;
+        .nav-links .nav-link {
+          display: none;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            left: 50;
-            top: 0;
-            height: 100%;
-            width: 250px;
-            background-color: var(--primary-color);
-            padding: 20px;
-            color: white;
-            transition: all 0.3s ease;
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
         }
 
-        .sidebar.collapsed {
-            width: 60px;
+        .footer-content {
+          grid-template-columns: 1fr;
+          text-align: center;
         }
 
-        .sidebar-header {
-            padding: 10px 0;
-            font-size: 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
+        .social-links {
+          justify-content: center;
         }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            padding: 12px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-menu li:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .sidebar-menu i {
-            margin-right: 10px;
-        }
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 0px;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            width: 100%;
-        }
-        .sidebar-link:hover {
-            background-color: var(--secondary-color);
-            color: white;
-            text-decoration: none;
-        }
-        
-        .sidebar-link i {
-            width: 20px;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 250px;
-            right: 0;
-            height: 60px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            z-index: 100;
-        }
-
-        .navbar-brand {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-        }
-
-        /* Main Content Area */
-        .main-content {
-            margin-left: 250px;
-            padding: 80px 20px 20px;
-        }
-
-        .cards-container {
-            display: flex;
-            grid-template-columns: repeat(var(--grid-columns), 1fr);
-            flex-direction: row;  /* Ensure horizontal layout */
-            gap: var(--grid-gap);
-            margin-bottom: 20px;
-            padding: 0 var(--card-padding);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-        }
-
-        .card-link {
-            text-decoration: none !important;  /* Removes underline */
-            color: inherit;
-            display: block;
-        }
-        
-        .card {
-            min-width: 200px;
-            max-width: var(--card-max-width);
-            height: 200px;
-            padding: var(--card-padding);
-            border-radius: var(--card-border-radius);
-            transition: transform 0.3s ease;
-        }
-
-        .card-link:hover {
-            text-decoration: none !important;  /* Ensures no underline on hover */
-        }
-        
-        .card-title, .card-subtitle, .display-number {
-            text-decoration: none !important;  /* Ensures no underline on child elements */
-        }
-        
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }        
-        
-        .card-body {
-            height: 90%;
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-        }
-        
-        .card-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .display-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 0;
-        }
-        
-        .card-icon {
-            font-size: 2.5rem;
-            opacity: 0.8;
-        }
-        
-        .card-subtitle {
-            font-size: 0.875rem;
-            opacity: 0.8;
-        }
-        
-        /* Card color variations */
-        .card.sites-card {
-            background: var(--sites-card-gradient);
-            color: white;
-        }
-        
-        .card.energy-card {
-            background: var(--energy-card-gradient);
-            color: white;
-        }
-        
-        .card.capacity-card {
-            background: var(--capacity-card-gradient);
-            color: white;
-        }
-        
-        .card.status-card {
-            background: var(--status-card-gradient);
-            color: white;
-        }
-
-        /* Table Styles */
-        .table-container {
-            margin: 20px var(--card-padding);
-            background-color: white;
-            border-radius: var(--card-border-radius);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .table-header {
-            padding: 20px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .table-title {
-            font-size: 1.25rem;
-            color: var(--primary-color);
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .table-content {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            color: var(--primary-color);
-            font-weight: 600;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-        }
-
-        td {
-            color: #4a5568;
-        }
-
-        tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            display: inline-block;
-        }
-
-        .status-badge.online {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .status-badge.offline {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .actions {
-            white-space: nowrap;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            padding: 6px 10px;
-            cursor: pointer;
-            color: var(--accent-color);
-            transition: color 0.2s;
-        }
-
-        .action-btn:hover {
-            color: var(--primary-color);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 60px;
-            }
-            
-            .main-content {
-                margin-left: 60px;
-            }
-
-            .navbar {
-                left: 60px;
-            }
-
-            .sidebar-header, .sidebar-menu span {
-                display: none;
-            }
-
-            .cards-container {
-                grid-template-columns: 1fr;
-            }
-
-            .table-content {
-                overflow-x: auto;
-            }
-            
-            table {
-                min-width: 800px;
-            }
-
-            .table-container {
-                margin: 20px 10px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">Solar Dashboard</div>
-        <ul class="sidebar-menu">
-            <li>
-                <a href="{% url 'site' %}" class="sidebar-link"><i class="fas fa-solar-panel"></i>
-                    <span>Sites</span>
-                </a>
-            </li>
-            <li><i class="fas fa-bolt"></i><span>Energy Flow</span></li>
-            <li><i class="fas fa-chart-bar"></i><span>Analytics</span></li>
-            <li><i class="fas fa-cog"></i><span>Settings</span></li>
-            <li><i class="fas fa-bell"></i><span>Alerts</span></li>
-            <li><i class="fas fa-file-alt"></i><span>Reports</span></li>
-        </ul>
-    </div>
-
-    <!-- Navbar -->
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="navbar-brand">Solar Energy Management</div>
-        <div class="navbar-right">
-            <i class="fas fa-bell"></i>
-            <img src="/api/placeholder/40/40" alt="Admin Profile" class="profile-img">
-            <i class="fas fa-sign-out-alt"></i>
-        </div>
+      <a href="#" class="logo">
+        <i class="fas fa-solar-panel"></i>
+        Solar Energy Management
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <button class="nav-btn login-btn" onclick="openModal('loginModal')">
+          Login
+        </button>
+        <button
+          class="nav-btn register-btn"
+          onclick="openModal('registerModal')"
+        >
+          Register
+        </button>
+      </div>
     </nav>
 
-    <div class="main-content">
-        <!-- Cards Container -->
-        <div class="cards-container">
-            <!-- Sites Card -->
-                <div class="card sites-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Installed-Sites</h5>
-                        <div class="card-display">
-                            <h2 class="display-number">{{ sites.count }}</h2>
-                            
-                        </div>
-                        <div class="card-title">Current-Status</div>
-                        <div class="status-display">
-                            <div style="display: inline-block; margin-right: 20px; text-align: center;">
-                                <span>Online</span>
-                                <div style="font-weight: bold;">{{ online_count }}</div>
-                            </div>
-                            <div style="display: inline-block; text-align: center;">
-                                <span>Offline</span>
-                                <div style="font-weight: bold;">{{ offline_count }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            
-    
-            <div class="card energy-card">
-                <div class="card-body">
-                    <h5 class="card-title">Installed-Capacity </h5>
-                    <div class="card-display">
-                        <h2 class="display-number">{{ current_capacity }}</h2>
-                    </div>
-                    <h5  style="font-weight: bold;">Lifetime-Capacity</h5>
-                    <div class="lifetime-capacity">
-                        <div class="lifetime-stat">
-                            <h2 class="lifetime-value">{{ lifetime_capacity }}</h2>
-                            <span class="lifetime-label"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <!-- Capacity Card -->
-            <!-- System Status Card -->
-            <div class="card capacity-card">
-                <div class="card-body">
-                    <h5 class="card-title">System Status</h5>
-                    <div class="status-grid">
-                        <div class="status-group">
-                            <div class="status-row">
-                                <span>Normal</span>
-                                <span>Warning</span>
-                                <span>Alarm</span>
-                            </div>
-                            <div class="status-row">
-                                <h2 class="display-number">25</h2>
-                                <h2 class="display-number">8</h2>
-                                <h2 class="display-number">3</h2>
-                            </div>
-                        </div>
-                        <i class="fas fa card-icon"></i>
-                    </div>
-                    <small class="card-subtitle">Total Systems: 36</small>
-                </div>
-            </div>
-            
-            <style>
-            .card {
-                background: linear-gradient(145deg, #ffffff, #f5f7fa);
-                border-radius: 15px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            }
-            
-            .status-grid {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 0;
-            }
-            
-            .status-group {
-                flex-grow: 1;
-                margin-right: 30px;
-            }
-            
-            .status-row {
-                display: flex;
-                justify-content: space-between;
-                gap: 13px;
-                padding: 0 15px;
-            }
-            
-            .status-row span {
-                flex: 1;
-                font-weight: 500;
-                text-align: center;
-            }
-            
-            .status-row.numbers {
-                margin-top: 5px;
-            }
-            
-            .status-row .display-number {
-                flex: 1;
-                font-size: 24px;
-                font-weight: bold;
-                color: #f3f5fd;
-                text-align: center;
-                margin: 8px 0;
-            }
-            
-            .status-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            
-            /* Ensure each span and number take up the same width */
-            .status-row > * {
-                width: 33.33%;
-                text-align: center;
-            }
-            
-            .card-icon {
-                font-size: 28px;
-                color: #6366f1;
-                margin-right: 15px;
-            }
-            
-            .card-subtitle {
-                margin-top: 10px;
-                color: #6b7280;
-            }
-            </style>
-          
+    <section class="hero">
+      <h1>Transform Your Solar Energy Management</h1>
+      <p>
+        Monitor, analyze, and optimize your solar energy systems with our
+        state-of-the-art dashboard
+      </p>
+      <div class="cta-buttons">
+        <button
+          class="cta-btn primary-btn"
+          onclick="openModal('registerModal')"
+        >
+          Get Started
+        </button>
+        <button
+          class="cta-btn secondary-btn"
+          onclick="document.querySelector('#features').scrollIntoView({behavior: 'smooth'})"
+        >
+          Learn More
+        </button>
+      </div>
+    </section>
 
-        <!--flow.card-->
-             <div class="card">
-        <div class="card-body">
-            <div class="energy-flow-container">
-                
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
+    <section id="features" class="features">
+      <div class="feature-card">
+        <i class="fas fa-chart-line feature-icon"></i>
+        <h3>Real-time Monitoring</h3>
+        <p>Track your solar system's performance with live data and insights</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-tools feature-icon"></i>
+        <h3>Maintenance Alerts</h3>
+        <p>Get notified about system issues before they become problems</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-file-alt feature-icon"></i>
+        <h3>Detailed Reports</h3>
+        <p>
+          Generate comprehensive reports on system performance and energy
+          production
+        </p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-mobile-alt feature-icon"></i>
+        <h3>Mobile Access</h3>
+        <p>
+          Monitor your solar systems from anywhere with our mobile-friendly
+          dashboard
+        </p>
+      </div>
+    </section>
 
-        
-       
-        .energy-flow-card {
-            background: white;
-            padding: 5px;  /* Reduced padding */
-            height: auto;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 0.2rem;  /* Reduced margin */
-        }
-
-        .energy-flow-card svg {
-            height: auto;  /* Adjusted height */
-            margin-top: -10px;  /* Move up further */
-        }
-        
-
-        .diagram-container {
-            position: relative;
-            width: 100%;
-            padding: 0;
-            height: 10%;
-        }
-
-        
-        .component-icon {
-            font-size: 16px;
-            color: #2c3e50;
-        }
-
-        .icon-circle {
-            width: 40px;
-            height: 40px;
-            background: #f8f9fa;
-            border: 1px solid #3498db;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1 auto 4px;
-        }
-
-        .energy-value {
-            font-size: 12px;
-            color: #2c3e50;
-            display: block;
-            line-height: 1.2;
-            text-align: center;
-        }
-
-        .flow-line {
-            fill: none;
-            stroke: #ddd;
-            stroke-width: 1;
-        }
-        
-        .flow-dot {
-            fill: #2ecc71;
-            animation: flowAnimation 3s linear infinite;
-        }
-        
-        @keyframes flowAnimation {
-            0% {
-                offset-distance: 0%;
-            }
-            100% {
-                offset-distance: 100%;
-            }
-        }
-
-        .component-label {
-            font-size: 15px;
-            font-weight: 300;
-            color: #0c0d0e;
-            text-align: center;
-            margin-bottom: 2px;
-        }
-
-        .component-section {
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="energy-flow-container">
-        <div class="diagram-container">
-            <svg width="100%" height="170" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                <!-- PV Panel Section -->
-                <g class="pv-section" transform="translate(35,20)">
-                    <foreignObject x="0" y="0" width="100" height="90">
-                        <div class="component-section">
-                            <div class="component-label">PV Panels</div>
-                            <div class="icon-circle">
-                                <i class="fas fa-solar-panel component-icon"></i>
-                            </div>
-                            <span id="pv-power" class="energy-value">0 kW</span>
-                            <span id="pv-voltage" class="energy-value">0 V</span>
-                        </div>
-                    </foreignObject>
-                </g>
-
-                <!-- Inverter (Center) -->
-                <g class="inverter-section" transform="translate(169,128)">
-                    <foreignObject x="0" y="0" width="90" height="100">
-                        <div class="component-section">
-                            <div class="component-label">Inverter</div>
-                            <div class="icon-circle">
-                                <i class="fas fa-exchange-alt component-icon"></i>
-                            </div>
-                            <span id="inverter-efficiency" class="energy-value">0%</span>
-                            <span id="inverter-temp" class="energy-value">0°C</span>
-                        </div>
-                    </foreignObject>
-                </g>
-
-                <!-- Battery Section -->
-                <g class="battery-section" transform="translate(40,230)">
-                    <foreignObject x="0" y="0" width="100" height="90">
-                        <div class="component-section">
-                            <div class="component-label">Battery</div>
-                            <div class="icon-circle">
-                                <i class="fas fa-car-battery component-icon"></i>
-                            </div>
-                            <span id="battery-charge" class="energy-value">0%</span>
-                            <span id="battery-status" class="energy-value">Standby</span>
-                        </div>
-                    </foreignObject>
-                </g>
-
-                <!-- Grid Section -->
-                <g class="grid-section" transform="translate(320,20)">
-                    <foreignObject x="0" y="0" width="100" height="90">
-                        <div class="component-section">
-                            <div class="component-label">Grid</div>
-                            <div class="icon-circle">
-                                <i class="fas fa-power-off component-icon"></i>
-                            </div>
-                            <span id="grid-power" class="energy-value">0 kW</span>
-                            <span id="grid-status" class="energy-value">Connected</span>
-                        </div>
-                    </foreignObject>
-                </g>
-
-                <!-- Load Section -->
-                <g class="load-section" transform="translate(318,222)">
-                    <foreignObject x="0" y="0" width="100" height="90">
-                        <div class="component-section">
-                            <div class="component-label">Load</div>
-                            <div class="icon-circle">
-                                <i class="fas fa-home component-icon"></i>
-                            </div>
-                            <span id="load-consumption" class="energy-value">0 kW</span>
-                            <span id="load-peak" class="energy-value">0 kW</span>
-                        </div>
-                    </foreignObject>
-                </g>
-
-                <g class="flow-lines">
-                    <!-- PV to Inverter line -->
-                    <path class="flow-line" d="M85,65 L165,155"/>
-                    <circle class="flow-dot" r="2">
-                        <animateMotion 
-                            dur="3s" 
-                            repeatCount="indefinite"
-                            path="M85,65 L165,155"/>
-                    </circle>
-                
-                    <!-- Grid to Inverter line -->
-                    <path class="flow-line" d="M315,65 L235,155"/>
-                    <circle class="flow-dot" r="2">
-                        <animateMotion 
-                            dur="3s" 
-                            repeatCount="indefinite"
-                            path="M315,65 L235,155"/>
-                    </circle>
-                
-                    <!-- Inverter to Battery line -->
-                    <path class="flow-line" d="M165,185 L85,265"/>
-                    <circle class="flow-dot" r="2">
-                        <animateMotion 
-                            dur="3s" 
-                            repeatCount="indefinite"
-                            path="M165,185 L85,265"/>
-                    </circle>
-                
-                    <!-- Inverter to Load line -->
-                    <path class="flow-line" d="M235,185 L315,265"/>
-                    <circle class="flow-dot" r="2">
-                        <animateMotion 
-                            dur="3s" 
-                            repeatCount="indefinite"
-                            path="M235,185 L315,265"/>
-                    </circle>
-                </g>
-            </svg>
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">10K+</div>
+          <div class="stat-label">Active Users</div>
         </div>
-    </div>
-
-    <script>
-        async function updateEnergyData() {
-            try {
-                const response = await fetch('/api/energy-data');
-                const data = await response.json();
-                
-                document.getElementById('pv-power').textContent = `${data.pv_power} kW`;
-                document.getElementById('pv-voltage').textContent = `${data.pv_voltage} V`;
-                document.getElementById('inverter-efficiency').textContent = `${data.inverter_efficiency}%`;
-                document.getElementById('inverter-temp').textContent = `${data.inverter_temp}°C`;
-                document.getElementById('battery-charge').textContent = `${data.battery_charge}%`;
-                document.getElementById('battery-status').textContent = data.battery_status;
-                document.getElementById('grid-power').textContent = `${data.grid_power} kW`;
-                document.getElementById('grid-status').textContent = data.grid_status;
-                document.getElementById('load-consumption').textContent = `${data.load_consumption} kW`;
-                document.getElementById('load-peak').textContent = `${data.load_peak} kW`;
-                
-            } catch (error) {
-                console.error('Error fetching energy data:', error);
-            }
-        }
-
-        setInterval(updateEnergyData, 5000);
-        updateEnergyData();
-    </script>
-</body>
-</html>
-
-                <!-- Your existing SVG diagram -->
-            </div>
+        <div class="stat-card">
+          <div class="stat-number">50MW+</div>
+          <div class="stat-label">Power Monitored</div>
         </div>
-    </div>
-</div>
-        <!--flow-end-->
+        <div class="stat-card">
+          <div class="stat-number">99.9%</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Support</div>
+        </div>
+      </div>
+    </section>
 
-        
-       <!-- Table Container -->
-<div class="table-container">
-    <div class="table-header">
-        <h2 class="table-title">Solar Sites Overview</h2>
-    </div>
-    <div class="table-content">
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Location</th>
-                    <th>Load</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for site in sites %}
-                <tr>
-                    <td>{{ site.Name }}</td>
-                    <td>{{ site.Size }}</td>
-                    <td>{{ site.Location }}</td>
-                    <td>{{ site.Load }}</td>
-                    <td>
-                        <span class="status-badge {% if site.status == 'Online' %}online{% else %}offline{% endif %}">
-                            {{ site.status }}
-                        </span>
-                    </td>
-                    <td class="actions">
-                        <button class="action-btn view-btn">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" style="text-align: center;">No sites available</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-    </div>  
-</body>
+    <section class="testimonials">
+      <h2 style="text-align: center; margin-bottom: 2rem">
+        What Our Clients Say
+      </h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "This platform has revolutionized how we manage our solar
+            installations. The real-time monitoring and alerts are invaluable."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar"></div>
+            <div>
+              <h4>John Smith</h4>
+              <p>Solar Farm Manager</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>
-
-

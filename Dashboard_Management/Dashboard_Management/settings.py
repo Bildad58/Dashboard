@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Validation',
     'dashboard',
+    'Users',
+    'victron',
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
@@ -78,7 +81,7 @@ WSGI_APPLICATION = 'Dashboard_Management.wsgi.application'
 DATABASES = {
  'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Dashboard_Management',
+        'NAME': 'DASHBOARD',
         'USER': 'root',
         'PASSWORD': 'Bildad_Khaoya@58',
         'HOST':'localhost',
@@ -123,19 +126,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'Validation/static'
-# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'Validation.CustomUser'
+AUTH_USER_MODEL = 'auth.User'
 
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
 
-# Alert Email Configuration
-ALERT_EMAIL_ENABLED = True
-ALERT_RECIPIENT_LIST = ['Bildadwasioya@gmail.com']
-DEFAULT_FROM_EMAIL = 'solar-system@yourdomain.com'
+# Add to settings.py
+VICTRON_API_SETTINGS = {
+    'BASE_URL': 'https://vrmapi.victronenergy.com/v2',
+    'SYNC_INTERVAL': 300,  # 5 minutes in seconds
+}

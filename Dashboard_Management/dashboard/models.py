@@ -39,7 +39,7 @@ class Sites(models.Model):
         default='Online',  # Default value
     )
     is_deleted = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    Commissioned = models.DateField(auto_now_add=True, blank=False)
 
     @classmethod
     def get_lifetime_capacity(cls):
