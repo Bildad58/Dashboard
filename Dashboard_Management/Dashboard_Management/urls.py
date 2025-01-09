@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path ('' , include('Users.urls')),
     path ('' , include('dashboard.urls')),
-    path ('' , include('victron.urls')),
+    # path ('' , include('victron.urls')),
     path('admin/', admin.site.urls),
 
 ]

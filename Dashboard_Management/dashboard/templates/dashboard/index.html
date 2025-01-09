@@ -1,532 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solar Energy Management - Home</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Energy Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Arial", sans-serif;
-      }
-
-      :root {
-        --primary-color: #2c3e50;
-        --accent-color: #3498db;
-        --success-color: #2ecc71;
-        --light-color: #ecf0f1;
-        --warning-color: #f1c40f;
-      }
-
-      body {
-        background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%);
-        color: white;
-      }
-
-      .navbar {
-        background-color: rgba(44, 62, 80, 0.95);
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 100;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: white;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-      }
-
-      .nav-link {
-        color: white;
-        text-decoration: none;
-        padding: 5px 10px;
-        transition: color 0.3s ease;
-      }
-
-      .nav-link:hover {
-        color: var(--accent-color);
-      }
-
-      .nav-btn {
-        padding: 8px 20px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-      }
-
-      .login-btn {
-        background-color: transparent;
-        border: 2px solid var(--accent-color);
-        color: white;
-      }
-
-      .register-btn {
-        background-color: var(--accent-color);
-        color: white;
-      }
-
-      .hero {
-        text-align: center;
-        padding: 8rem 2rem 4rem;
-        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-          url("/api/placeholder/1920/1080") no-repeat center center;
-        background-size: cover;
-        min-height: 80vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .hero h1 {
-        font-size: 3.5rem;
-        margin-bottom: 1rem;
-        animation: fadeInUp 1s ease;
-      }
-
-      .hero p {
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
-        color: #b8c2cc;
-        animation: fadeInUp 1s ease 0.2s;
-        opacity: 0;
-        animation-fill-mode: forwards;
-      }
-
-      .cta-buttons {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        animation: fadeInUp 1s ease 0.4s;
-        opacity: 0;
-        animation-fill-mode: forwards;
-      }
-
-      .cta-btn {
-        padding: 15px 40px;
-        border-radius: 30px;
-        border: none;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-      }
-
-      .cta-btn:hover {
-        transform: translateY(-3px);
-      }
-
-      .primary-btn {
-        background-color: var(--accent-color);
-        color: white;
-      }
-
-      .secondary-btn {
-        background-color: transparent;
-        border: 2px solid white;
-        color: white;
-      }
-
-      .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        padding: 4rem 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .feature-card {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 2rem;
-        border-radius: 10px;
-        text-align: center;
-        transition: transform 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .feature-card:hover {
-        transform: translateY(-5px);
-      }
-
-      .feature-icon {
-        font-size: 2.5rem;
-        color: var(--accent-color);
-        margin-bottom: 1rem;
-      }
-
-      .stats-section {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 4rem 2rem;
-        text-align: center;
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .stat-card {
-        padding: 2rem;
-      }
-
-      .stat-number {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: var(--accent-color);
-        margin-bottom: 0.5rem;
-      }
-
-      .testimonials {
-        padding: 4rem 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .testimonial-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-      }
-
-      .testimonial-card {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 2rem;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-      }
-
-      .testimonial-text {
-        font-style: italic;
-        margin-bottom: 1rem;
-      }
-
-      .testimonial-author {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .author-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: var(--accent-color);
-      }
-
-      .contact-section {
-        padding: 4rem 2rem;
-        background: rgba(255, 255, 255, 0.05);
-        text-align: center;
-      }
-
-      .contact-form {
-        max-width: 600px;
-        margin: 2rem auto;
-      }
-
-      .form-group {
-        margin-bottom: 1rem;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-      }
-
-      .form-group input,
-      .form-group textarea {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 5px;
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-      }
-
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
-
-      .modal-content {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        width: 90%;
-        max-width: 400px;
-        color: var(--primary-color);
-        position: relative;
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: var(--primary-color);
-      }
-
-      .submit-btn {
-        width: 100%;
-        padding: 0.75rem;
-        background-color: var(--accent-color);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        margin-top: 1rem;
-      }
-
-      footer {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 4rem 2rem 1rem;
-        color: white;
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin-bottom: 2rem;
-      }
-
-      .footer-section h3 {
-        margin-bottom: 1rem;
-      }
-
-      .footer-links {
-        list-style: none;
-      }
-
-      .footer-links li {
-        margin-bottom: 0.5rem;
-      }
-
-      .footer-links a {
-        color: #b8c2cc;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        color: var(--accent-color);
-      }
-
-      .social-links {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .social-links a {
-        color: white;
-        font-size: 1.5rem;
-        transition: color 0.3s ease;
-      }
-
-      .social-links a:hover {
-        color: var(--accent-color);
-      }
-
-      .copyright {
-        text-align: center;
-        padding-top: 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @media (max-width: 768px) {
-        .hero h1 {
-          font-size: 2.5rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
-        .features {
-          grid-template-columns: 1fr;
+        :root {
+            /* Core colors */
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --success-color: #2ecc71;
+            --warning-color: #f1c40f;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            
+            /* Card colors */
+            --sites-card-gradient: linear-gradient(135deg, #3798c5, #7cc0b1);
+            --energy-card-gradient: linear-gradient(135deg, #d48f34, #50503d);
+            --capacity-card-gradient: linear-gradient(135deg, #18a592, #18a592);
+            --status-card-gradient: linear-gradient(135deg, #F6B93B, #E58E26);
+            
+            /* Card dimensions */
+            --card-min-width: 200px;
+            --card-max-width: 250px;
+            --card-height: 200px;
+            --card-padding: 20px;
+            --card-border-radius: 8px;
+            
+            /* Grid layout */
+            --grid-gap: 10px;
+            --grid-columns: 4;
         }
 
-        .nav-links .nav-link {
-          display: none;
+        body {
+            background-color: #f4f6f9;
         }
 
-        .cta-buttons {
-          flex-direction: column;
-          align-items: center;
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;  /* Change from 50 to 0 */
+            top: 0;
+            height: 100%;
+            width: 250px;
+            background-color: var(--primary-color);
+            padding: 20px;
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
 
-        .footer-content {
-          grid-template-columns: 1fr;
-          text-align: center;
+        .sidebar.collapsed {
+            width: 60px;
         }
 
-        .social-links {
-          justify-content: center;
+        .sidebar-header {
+            padding: 10px 0;
+            font-size: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
         }
-      }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu li:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            width: 100%;
+        }
+
+        .sidebar-link:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .sidebar-link i {
+            width: 20px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 250px;  /* Match sidebar width */
+            right: 0;
+            height: 60px;
+            background-color: rgb(142, 155, 155);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 250px;
+            padding: 80px 20px 20px;
+        }
+
+        /* Updated Cards Container Style */
+        .cards-container {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: var(--grid-gap);
+            margin-bottom: 20px;
+            padding: 0;  /* Remove padding */
+            width: 100%;
+        }
+
+        .card {
+            flex: 1;
+            min-width: var(--card-min-width);
+            max-width: var(--card-max-width);
+            height: var(--card-height);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-body {
+            height: 100%;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .card-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .display-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        /* Card variations */
+        .card.sites-card {
+            background: var(--sites-card-gradient);
+            color: white;
+        }
+        
+        .card.energy-card {
+            background: var(--energy-card-gradient);
+            color: white;
+        }
+        
+        .card.capacity-card {
+            background: var(--capacity-card-gradient);
+            color: white;
+        }
+
+        /* Status Grid Styles */
+        .status-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        
+        .status-group {
+            flex-grow: 1;
+            margin-right: 30px;
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 13px;
+            padding: 0 15px;
+        }
+        
+        .status-row span {
+            flex: 1;
+            font-weight: 500;
+            text-align: center;
+            color: white;
+        }
+        
+        .status-row .display-number {
+            flex: 1;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        /* Updated Dashboard Content Layout */
+        .dashboard-content {
+            display: flex;
+            gap: 20px;
+            margin: 20px var(--card-padding);
+            width: 100%;
+        }
+
+        /* Updated Table Container Styles */
+        .table-container {
+            flex: 0 0 53%;
+            background-color: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .table-content {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #4a5568;
+            font-size: 0.875rem;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr.active {
+            background-color: #f0f9ff !important;
+            border-left: 3px solid #3498db;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-badge.online {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .status-badge.offline {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Energy Flow Container */
+        .energy-flow-container {
+            flex: 0 0 50%;
+            background: white;
+            border-radius: var(--card-border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .diagram-container {
+            position: relative;
+            width: 90%;
+            height: auto;
+            aspect-ratio: 1/1;
+        }
+
+        .diagram-container svg {
+            width: 90%;
+            height: 90%;
+        }
+
+        .component-icon {
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border: 1px solid #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 4px;
+        }
+
+        .energy-value {
+            font-size: 12px;
+            color: #2c3e50;
+            display: block;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .flow-line {
+            fill: none;
+            stroke: #ddd;
+            stroke-width: 1;
+        }
+        
+        .flow-dot {
+            fill: #2ecc71;
+            animation: flowAnimation 3s linear infinite;
+        }
+        
+        @keyframes flowAnimation {
+            0% { offset-distance: 0%; }
+            100% { offset-distance: 100%; }
+        }
+
+        .component-label {
+            font-size: 15px;
+            font-weight: 300;
+            color: #0c0d0e;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        .component-section {
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .cards-container {
+                flex-wrap: wrap;
+            }
+            .dashboard-content {
+                flex-direction: column;
+            }
+            
+            .card {
+                flex: 1 1 calc(50% - var(--grid-gap));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+            
+            .main-content {
+                margin-left: 250px;  /* Match sidebar width */
+                padding: 80px 20px 20px;
+                width: calc(100% - 250px);  /* Adjust for sidebar */
+                position: relative;            }
+
+            .navbar {
+                left: 60px;
+            }
+
+            .sidebar-header, .sidebar-menu span {
+                display: none;
+            }
+
+            .cards-container {
+                flex-direction: column;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: none;
+            }
+
+            .dashboard-content {
+                flex-direction: column;
+            }
+
+            .table-container,
+            .energy-flow-container {
+                flex: 0 30 100%;
+            }
+            /* Add to your existing styles */
+            .alert-success {
+                background-color: #28a745;  /* Green background */
+                color: white !important;
+                border: 1px solid #218838;
+            }
+
+            .alert-danger {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .alert-info {
+                background-color: rgba(52, 152, 219, 0.95);
+                color: white;
+            }
+
+            /* Optional: Add auto-hide animation */
+            .alert {
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                margin-bottom: 10px;
+                opacity: 1;
+                transform: translateX(0);
+                transition: all 0.5s ease;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+            }         
+            }
+                        /* Add these styles to your existing CSS */
+            .messages-container {
+                position: fixed;
+                top: 70px;
+                right: 20px;
+                width: auto;
+                max-width: 400px;
+                z-index: 1050;
+                pointer-events: none;
+            }
+
+            .messages-container .alert {
+                pointer-events: auto;
+                margin-bottom: 10px;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                animation: slideIn 0.5s ease;
+            }
+
+            @keyframes slideIn {
+                from { 
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to { 
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+                        
+            
+        
     </style>
-  </head>
-  <body>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">Solar Dashboard</div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="/site" style="color: inherit; text-decoration: none;">
+                    <i class="fas fa-solar-panel"></i>
+                    <span class="site-number" style="color: white;"></span> Sites
+                </a>
+            </li>
+            
+            <li><i class="fas fa-bolt"></i><span>Energy Flow</span></li>
+            <li><i class="fas fa-chart-bar"></i><span>Analytics</span></li>
+            <li><i class="fas fa-cog"></i><span>Settings</span></li>
+            <li>
+                <a href="/system-status" style="color: inherit; text-decoration: none;">
+                    <i class="fas fa-bell"></i>
+                    <span style="color: white;"></span> Alerts
+                </a>
+            </li>
+            
+            
+            <li><i class="fas fa-file-alt"></i><span>Reports</span></li>
+        </ul>
+    </div>
+
+    <!-- Navbar -->
     <nav class="navbar">
-      <a href="#" class="logo">
-        <i class="fas fa-solar-panel"></i>
-        Solar Energy Management
-      </a>
-      <div class="nav-links">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#contact" class="nav-link">Contact</a>
-        <button class="nav-btn login-btn" onclick="openModal('loginModal')">
-          Login
-        </button>
-        <button
-          class="nav-btn register-btn"
-          onclick="openModal('registerModal')"
-        >
-          Register
-        </button>
-      </div>
+        <div class="navbar-brand">Solar Energy Management</div>
+        <div class="navbar-right">
+            <i class="fas fa-bell"></i>
+            <img src="/api/placeholder/40/40" alt="Admin Profile" class="profile-img">
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt" title="Logout"></i>
+            </a>
+        </div>
     </nav>
-
-    <section class="hero">
-      <h1>Transform Your Solar Energy Management</h1>
-      <p>
-        Monitor, analyze, and optimize your solar energy systems with our
-        state-of-the-art dashboard
-      </p>
-      <div class="cta-buttons">
-        <button
-          class="cta-btn primary-btn"
-          onclick="openModal('registerModal')"
-        >
-          Get Started
-        </button>
-        <button
-          class="cta-btn secondary-btn"
-          onclick="document.querySelector('#features').scrollIntoView({behavior: 'smooth'})"
-        >
-          Learn More
-        </button>
-      </div>
-    </section>
-
-    <section id="features" class="features">
-      <div class="feature-card">
-        <i class="fas fa-chart-line feature-icon"></i>
-        <h3>Real-time Monitoring</h3>
-        <p>Track your solar system's performance with live data and insights</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-tools feature-icon"></i>
-        <h3>Maintenance Alerts</h3>
-        <p>Get notified about system issues before they become problems</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-file-alt feature-icon"></i>
-        <h3>Detailed Reports</h3>
-        <p>
-          Generate comprehensive reports on system performance and energy
-          production
-        </p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-mobile-alt feature-icon"></i>
-        <h3>Mobile Access</h3>
-        <p>
-          Monitor your solar systems from anywhere with our mobile-friendly
-          dashboard
-        </p>
-      </div>
-    </section>
-
-    <section class="stats-section">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number">10K+</div>
-          <div class="stat-label">Active Users</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">50MW+</div>
-          <div class="stat-label">Power Monitored</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">99.9%</div>
-          <div class="stat-label">Uptime</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">24/7</div>
-          <div class="stat-label">Support</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="testimonials">
-      <h2 style="text-align: center; margin-bottom: 2rem">
-        What Our Clients Say
-      </h2>
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <p class="testimonial-text">
-            "This platform has revolutionized how we manage our solar
-            installations. The real-time monitoring and alerts are invaluable."
-          </p>
-          <div class="testimonial-author">
-            <div class="author-avatar"></div>
-            <div>
-              <h4>John Smith</h4>
-              <p>Solar Farm Manager</p>
+    <!-- Add this right after the navbar -->
+    
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% elif message.tags == 'info' %}info{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-          </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+     
+      
+    <div class="main-content">
+        <!-- Cards Container -->
+        <div class="cards-container">
+            <!-- Sites Card -->
+            <div class="card sites-card">
+                <div class="card-body">
+                    <h5 class="card-title">Installed-Sites</h5>
+                    <div class="card-display">
+                        <h2 class="display-number">{{ sites.count }}</h2>
+                    </div>
+                    <div class="card-title">Current-Status</div>
+                    <div class="status-display">
+                        <div style="display: inline-block; margin-right: 20px; text-align: center;">
+                            <span>Online</span>
+                            <div style="font-weight: bold;">{{ online_count }}</div>
+                        </div>
+                        <div style="display: inline-block; text-align: center;">
+                            <span>Offline</span>
+                            <div style="font-weight: bold;">{{ offline_count }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Card -->
+            <div class="card energy-card">
+                <div class="card-<div class="card-body">
+                    <h5 class="card-title">Installed-Capacity </h5>
+                    <div class="card-display">
+                        <h2 class="display-number">{{ current_capacity }}</h2>
+                    </div>
+                    <h5 style="font-weight: bold;">Lifetime-Capacity</h5>
+                    <div class="lifetime-capacity">
+                        <div class="lifetime-stat">
+                            <h2 class="lifetime-value">{{ lifetime_capacity }}</h2>
+                            <span class="lifetime-label"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capacity Card -->
+            <div class="card capacity-card">
+                <div class="card-body">
+                    <h5 class="card-title">System Status</h5>
+                    <div class="status-grid">
+                        <div class="status-group">
+                            <div class="status-row">
+                                <span>Normal</span>
+                                <span>Warning</span>
+                                <span>Alarm</span>
+                            </div>
+                            <div class="status-row">
+                                <h2 class="display-number">25</h2>
+                                <h2 class="display-number">8</h2>
+                                <h2 class="display-number">3</h2>
+                            </div>
+                        </div>
+                        <i class="fas fa card-icon"></i>
+                    </div>
+                    <small class="card-subtitle">Total Systems: 36</small>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-  </body>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Table Container -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2 class="table-title">Solar Sites Overview</h2>
+                </div>
+                <div class="table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Size</th>
+                                <th>Location</th>
+                                <th>load</th>
+                                <th>commissioned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for site in sites %}
+                            <tr class="site-row" data-site-id="{{ site.id }}">
+                                <td>{{ site.Name }}</td>
+                                <td>{{ site.Size }}</td>
+                                <td>{{ site.Location }}</td>
+                                <td>{{ site.Load }}</td>
+                                <td>{{ site.Commissioned|date:"d/m/y" }}</td>
+                                
+                                <td>
+                                    <span class="status-badge {% if site.status == 'Online' %}online{% else %}offline{% endif %}">
+                                        {{ site.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" style="text-align: center;">No sites available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Energy Flow Container -->
+            <div class="energy-flow-container">
+                <h3 class="site-name" style="margin-bottom: 10px; font-size: 1.125rem;">Energy Flow</h3>
+                <div class="diagram-container">
+                    <svg width="100%" height="170" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- PV Panel Section -->
+                        <g class="pv-section" transform="translate(15,20)">
+                            <foreignObject x="0" y="4" width="100" height="90">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="component-section">
+                                    <div class="component-label">PV Panels</div>
+                                    <div class="icon-circle">
+                                        <i class="fas fa-solar-panel component-icon"></i>
+                                    </div>
+                                    <span id="pv-power" class="energy-value">0 kW</span>
+                                    <span id="pv-voltage" class="energy-value">0 V</span>
+                                </div>
+                            </foreignObject>
+                        </g>
+
+                        <!-- Inverter Section -->
+                        <g class="inverter-section" transform="translate(152,128)">
+                            <foreignObject x="0" y="0" width="90" height="90">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="component-section">
+                                    <div class="component-label">Inverter</div>
+                                    <div class="icon-circle">
+                                        <i class="fas fa-exchange-alt component-icon"></i>
+                                    </div>
+                                    <span id="inverter-efficiency" class="energy-value">0%</span>
+                                    <span id="inverter-temp" class="energy-value">0°C</span>
+                                </div>
+                            </foreignObject>
+                        </g>
+
+                    <!-- Generator Section -->
+                        <g class="generator-section" transform="translate(16,230)">
+                            <foreignObject x="0" y="0" width="100" height="90">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="component-section">
+                                    <div class="component-label">Generator</div>
+                                    <div class="icon-circle">
+                                        <i class="fas fa-gas-pump component-icon"></i>
+                                    </div>
+                                    <span id="battery-charge" class="energy-value">0 L/h</span>
+                                    <span id="battery-status" class="energy-value">Standby</span>
+                                    <span id="generator-runtime" class="energy-value">0 hrs</span>
+                                    <span id="generator-fuel" class="energy-value">0%</span>
+                                </div>
+                            </foreignObject>
+                        </g>
+
+                        <!-- Grid Section -->
+                        <g class="grid-section" transform="translate(280,10)">
+                            <foreignObject x="0" y="0" width="100" height="90">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="component-section">
+                                    <div class="component-label">Grid</div>
+                                    <div class="icon-circle">
+                                        <i class="fas fa-power-off component-icon"></i>
+                                    </div>
+                                    <span id="grid-power" class="energy-value">0 kW</span>
+                                    <span id="grid-status" class="energy-value">Connected</span>
+                                </div>
+                            </foreignObject>
+                        </g>
+                        <!--load-->
+                        <g class="load-section" transform="translate(280,237)">
+                            <foreignObject x="0" y="0" width="100" height="90">
+                                <div class="component-section">
+                                    <div class="component-label">Load</div>
+                                    <div class="icon-circle">
+                                        <i class="fas fa-home component-icon"></i>
+                                    </div>
+                                    <span id="load-consumption" class="energy-value">0 kW</span>
+                                    <span id="load-peak" class="energy-value">0 kW</span>
+                                </div>
+                            </foreignObject>
+                        </g>
+
+                        <!-- Flow Lines -->
+                        <g class="flow-lines">
+                            <path class="flow-line" d="M85,65 L165,155"/>
+                            <circle class="flow-dot" r="2">
+                                <animateMotion dur="3s" repeatCount="indefinite" path="M85,65 L165,155"/>
+                            </circle>
+
+                            <path class="flow-line" d="M315,65 L235,155"/>
+                            <circle class="flow-dot" r="2">
+                                <animateMotion dur="3s" repeatCount="indefinite" path="M315,65 L235,155"/>
+                            </circle>
+
+                            <path class="flow-line" d="M165,185 L85,265"/>
+                            <circle class="flow-dot" r="2">
+                                <animateMotion dur="3s" repeatCount="indefinite" path="M165,185 L85,265"/>
+                            </circle>
+
+                            <path class="flow-line" d="M235,185 L315,265"/>
+                            <circle class="flow-dot" r="2">
+                                <animateMotion dur="3s" repeatCount="indefinite" path="M235,185 L315,265"/>
+                            </circle>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let autoRotationInterval;
+        let currentSiteIndex = 0;
+        let isHovering = false;
+        const rotationDelay = 10000; // 17 seconds for each site
+
+        // Get all site rows
+        const siteRows = document.querySelectorAll('.site-row');
+
+        // Function to show energy flow for a specific site
+        function showEnergyFlow(row) {
+            const siteId = row.dataset.siteId;
+            const siteName = row.cells[0].textContent;
+            
+            // Update site name in the energy flow section
+            document.querySelector('.site-name').textContent = `${siteName} Energy Flow`;
+            
+            // Highlight current row
+            document.querySelectorAll('.site-row').forEach(r => r.classList.remove('active'));
+            row.classList.add('active');
+            
+            // Update energy flow data
+            updateEnergyFlow(siteId);
+        }
+
+        // Function to rotate through sites
+        function rotateSites() {
+            if (!isHovering && siteRows.length > 0) {
+                showEnergyFlow(siteRows[currentSiteIndex]);
+                currentSiteIndex = (currentSiteIndex + 1) % siteRows.length;
+            }
+        }
+
+        // Start auto-rotation
+        function startAutoRotation() {
+            if (siteRows.length > 0) {
+                // Show first site immediately
+                showEnergyFlow(siteRows[0]);
+                // Start rotation
+                autoRotationInterval = setInterval(rotateSites, rotationDelay);
+            }
+        }
+
+        // Add event listeners for table rows
+        siteRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                isHovering = true;
+                clearInterval(autoRotationInterval);
+                showEnergyFlow(this);
+            });
+
+            row.addEventListener('mouseleave', function() {
+                isHovering = false;
+                startAutoRotation();
+            });
+        });
+
+        function updateEnergyFlow(siteId) {
+            // Simulate updating energy flow values
+            document.getElementById('pv-power').textContent = `${(Math.random() * 5 + 2).toFixed(1)} kW`;
+            document.getElementById('pv-voltage').textContent = `${Math.floor(Math.random() * 40 + 360)} V`;
+            document.getElementById('inverter-efficiency').textContent = `${Math.floor(Math.random() * 5 + 95)}%`;
+            document.getElementById('inverter-temp').textContent = `${Math.floor(Math.random() * 15 + 35)}°C`;
+            
+            // Updated generator section (previously battery)
+            document.getElementById('battery-charge').textContent = `${(Math.random() * 100 + 150).toFixed(1)} L/h`; // Fuel consumption
+            
+            // Generate random generator status
+            const generatorStates = ['Standby', 'Running', 'Maintenance Required', 'Low Fuel'];
+            const randomState = generatorStates[Math.floor(Math.random() * generatorStates.length)];
+            document.getElementById('battery-status').textContent = randomState;
+            
+            document.getElementById('grid-power').textContent = `${(Math.random() * 3 + 1).toFixed(1)} kW`;
+            document.getElementById('grid-status').textContent = 'Connected';
+            
+            // Add new generator-specific metrics
+            document.getElementById('generator-runtime').textContent = `${Math.floor(Math.random() * 1000)} hrs`;
+            document.getElementById('generator-fuel').textContent = `${Math.floor(Math.random() * 40 + 60)}%`;
+
+             // New load section metrics
+            document.getElementById('load-consumption').textContent = `${(Math.random() * 8 + 2).toFixed(1)} kW`;
+            document.getElementById('load-peak').textContent = `${(Math.random() * 12 + 8).toFixed(1)} kW`;
+            document.getElementById('load-power-factor').textContent = `${(Math.random() * 0.1 + 0.9).toFixed(2)}`;
+            
+            // Calculate and update load percentage
+            const currentLoad = parseFloat(document.getElementById('load-consumption').textContent);
+            const peakLoad = parseFloat(document.getElementById('load-peak').textContent);
+            const loadPercentage = ((currentLoad / peakLoad) * 100).toFixed(1);
+            document.getElementById('load-percentage').textContent = `${loadPercentage}%`;
+        }
+
+        // Start the auto-rotation when the page loads
+        startAutoRotation();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            
+            alerts.forEach(alert => {
+                // First make sure the alert is visible
+                alert.style.display = 'block';
+                
+                // Set timeout to handle the fadeout
+                setTimeout(() => {
+                    // Add a class to trigger the fadeout
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translateX(100%)';
+                    
+                    // Remove the element after the animation
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 500);
+                }, 4500);
+            });
+        
+            // Handle close button clicks
+            const closeButtons = document.querySelectorAll('.alert .btn-close');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const alert = this.parentElement;
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
 </html>
